@@ -5,6 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import {NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @NgModule({
   declarations: [],
@@ -15,6 +19,9 @@ import { MatInputModule } from '@angular/material/input';
     MatListModule,
     MatCardModule,
     MatInputModule,
+    FormsModule,
+    NgIf,
+
   ],
   exports: [
     MatIconModule,
@@ -22,6 +29,9 @@ import { MatInputModule } from '@angular/material/input';
     MatListModule,
     MatCardModule,
     MatInputModule,
+    FormsModule,
+    NgIf,
+    MatFormFieldModule
   ],
 })
 export class MaterialModule {}
