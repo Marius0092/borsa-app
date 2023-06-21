@@ -1,0 +1,14 @@
+<mat-card *ngFor="let stock of stocks" class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ stock.nameCompany }}</mat-card-title>
+    <mat-card-subtitle
+      >Prezzo iniziale: {{ stock.initialPrice }} <br />
+      Prezzo attuale: {{ stock.currentPrice }}</mat-card-subtitle
+    >
+  </mat-card-header>
+
+  <mat-card-actions>
+    <button mat-button>Dettagli</button>
+  </mat-card-actions>
+</mat-card>
