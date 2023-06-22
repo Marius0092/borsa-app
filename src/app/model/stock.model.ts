@@ -3,20 +3,16 @@ export interface Stock {
   displaySymbol: String;
   initialPrice: Number;
   currentPrice: Number;
-  logo: String;
-  currentDate?: String;
-  twoMonthAgo?: String;
-  oneMonthAgo?: String;
   currency: String;
+  logo: String;
 
-  /* prePreviousValue: Number;
-  previousValue: Number;
-  currentValue: Number; */
+  currentDate?: InsiderSentiment;
+  twoMonthAgo?: InsiderSentiment;
+  oneMonthAgo?: InsiderSentiment;
 }
 
-/* export interface StockDetail extends Stock {
-  prePreviousValue: Number;
-  previousValue: Number;
-  currentValue: Number;
+export interface InsiderSentiment {
+  change?: Number;
+  month?: Number;
+  year?: Number;
 }
- */

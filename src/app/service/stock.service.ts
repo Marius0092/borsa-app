@@ -39,9 +39,37 @@ export class StockService {
                   currentPrice: quoteResponse.c,
                   logo: profileResponse.logo,
                   currency: profileResponse.currency,
-                  currentDate: insiderResponse.data[insiderResponse.data.length - 1].change,
-                  oneMonthAgo: insiderResponse.data[insiderResponse.data.length - 2].change,
-                  twoMonthAgo: insiderResponse.data[insiderResponse.data.length - 3].change,
+                  currentDate: {
+                    change:
+                      insiderResponse?.data[insiderResponse.data.length - 1]
+                        .change,
+                    month:
+                      insiderResponse?.data[insiderResponse.data.length - 1]
+                        .month,
+                    year: insiderResponse?.data[insiderResponse.data.length - 1]
+                      .year,
+                  },
+
+                  oneMonthAgo: {
+                    change:
+                      insiderResponse.data[insiderResponse.data.length - 2]
+                        ?.change,
+                    month:
+                      insiderResponse.data[insiderResponse.data.length - 2]
+                        ?.month,
+                    year: insiderResponse.data[insiderResponse.data.length - 2]
+                      ?.year,
+                  },
+                  twoMonthAgo: {
+                    change:
+                      insiderResponse.data[insiderResponse.data.length - 3]
+                        ?.change,
+                    month:
+                      insiderResponse.data[insiderResponse.data.length - 3]
+                        ?.month,
+                    year: insiderResponse.data[insiderResponse.data.length - 3]
+                      ?.year,
+                  }
                 };
 
                 console.log(stockData);
