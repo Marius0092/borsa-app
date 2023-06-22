@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Stock } from '../model/stock.model';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 import { StockService } from '../service/stock.service';
 
 @Component({
@@ -15,9 +12,9 @@ export class StockInputComponent {
 
   constructor(private stockService: StockService) {}
 
-  fetchStockProfile(): void {
+  fetchStockProfileAndQuote(): void {
     if (this.symbol && this.token) {
-      this.stockService.fetchStockProfile(this.symbol, this.token);
+      this.stockService.fetchStockProfileAndQuote(this.symbol, this.token);
     }
   }
 

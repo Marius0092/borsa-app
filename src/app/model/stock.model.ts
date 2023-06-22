@@ -3,6 +3,7 @@ export interface Stock {
   displaySymbol: String;
   initialPrice: Number;
   currentPrice: Number;
+  logo: String;
 
   /* prePreviousValue: Number;
   previousValue: Number;

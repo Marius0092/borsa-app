@@ -3,7 +3,11 @@
   <mat-form-field>
     <input matInput [(ngModel)]="symbol" placeholder="Symbol" />
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="fetchStockProfile()">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="fetchStockProfileAndQuote()"
+  >
     Submit
   </button>
 </div>
