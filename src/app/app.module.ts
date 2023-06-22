@@ -6,17 +6,24 @@ import { StocklistComponent } from './stocklist/stocklist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StockInputComponent } from './stock-input/stock-input.component';
 import { MaterialModule } from './material/material.module';
-import { StockDetailsComponent } from './stock-details/stock-details.component';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { StockDetailsComponent } from './stock-details/stock-details.component';
 
 @NgModule({
-  declarations: [AppComponent, StocklistComponent, StockInputComponent, StockDetailsComponent],
+  declarations: [
+    AppComponent,
+    StocklistComponent,
+    StockInputComponent,
+    StockDetailsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    HttpClientModule
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

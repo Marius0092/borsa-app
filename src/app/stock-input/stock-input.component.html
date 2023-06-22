@@ -1,11 +1,9 @@
-<mat-form-field class="example-form-field">
-  <mat-label>Ricerca Stocks</mat-label>
-  <input matInput type="text" [(ngModel)]="value" (input)="searchStocks()">
-  <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="clearInput()">
-    <mat-icon>close</mat-icon>
+<p>ciao</p>
+<div>
+  <mat-form-field>
+    <input matInput [(ngModel)]="symbol" placeholder="Symbol" />
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="fetchStockProfile()">
+    Submit
   </button>
-</mat-form-field>
-
-<ul *ngIf="stocks.length > 0">
-  <li *ngFor="let stock of stocks">{{ stock.nameCompany }}</li>
-</ul>
+</div>

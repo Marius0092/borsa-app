@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Stock } from '../model/stock.model';
+import { FormsModule } from '@angular/forms';
+import { StockService } from '../service/stock.service';
 
 @Component({
   selector: 'app-stock-input',
@@ -8,35 +10,18 @@ import { Stock } from '../model/stock.model';
   styleUrls: ['./stock-input.component.css'],
 })
 export class StockInputComponent {
-  value!: string;
-  stocks: Stock[] = [];
-  constructor(private http: HttpClient) {}
+  symbol!: string;
+  token: string = 'bu4f8kn48v6uehqi3cqg';
 
-  searchStocks() {
-    if (this.value) {
-      const apiKey = 'bu4f8kn48v6uehqi3cqg';
-      const apiUrl = `https://finnhub.io/api/v1/search?q=${this.value}&token=${apiKey}`;
+  constructor(private stockService: StockService) {}
 
-      this.http.get<any>(apiUrl).subscribe((response) => {
-        console.log(response);
-        if (response && response.result && response.result.length > 0) {
-          this.stocks = response.result.map((item: any) => ({
-            nameCompany: `${item.description} (${item.displaySymbol})`,
-            initialPrice: 0,
-            currentPrice: 0,
-            displaySymbol: item.displaySymbol,
-          }));
-        } else {
-          this.stocks = [];
-        }
-      });
-    } else {
-      this.stocks = [];
+  fetchStockProfile(): void {
+    if (this.symbol && this.token) {
+      this.stockService.fetchStockProfile(this.symbol, this.token);
     }
   }
 
-  clearInput() {
-    this.value = '';
-    this.stocks = [];
+  get stocks$() {
+    return this.stockService.stocks$;
   }
 }
