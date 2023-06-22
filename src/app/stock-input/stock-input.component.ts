@@ -18,6 +18,8 @@ export class StockInputComponent {
     }
   }
 
+
+
   get stocks$() {
     return this.stockService.stocks$;
   }

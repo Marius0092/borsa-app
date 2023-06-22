@@ -46,4 +46,11 @@ export class StockService {
       }
     );
   }
+
+  deleteStock(stock: Stock) {
+    const currentStocks = this.stocksSubject.getValue();
+    const updatedStocks = currentStocks.filter((s) => s.displaySymbol !== stock.displaySymbol);
+    this.stocksSubject.next(updatedStocks);
+  }
+
 }

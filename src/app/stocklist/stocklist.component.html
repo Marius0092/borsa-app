@@ -1,7 +1,7 @@
 <app-stock-input></app-stock-input>
 <mat-card *ngFor="let stock of stocks$ | async" class="example-card">
   <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
+    <div mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + stock.logo + ')' }"> </div>
 
     <mat-card-content>
       <mat-card-subtitle
@@ -19,4 +19,9 @@
   <mat-card-actions>
     <button mat-button>Dettagli</button>
   </mat-card-actions>
+
+  <mat-card-actions>
+    <button mat-button (click)="deleteStock(stock)">Elimina</button>
+  </mat-card-actions>
+
 </mat-card>
