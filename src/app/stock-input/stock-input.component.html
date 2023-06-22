@@ -1,1 +1,7 @@
-<p>stock-input works!</p>
+<p>ciao</p>
+<div>
+  <mat-form-field>
+    <input matInput [(ngModel)]="symbol" placeholder="Symbol">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="fetchStockProfile()">Submit</button>
+</div>

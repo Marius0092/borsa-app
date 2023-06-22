@@ -1,11 +1,12 @@
-<mat-card *ngFor="let stock of stocks" class="example-card">
+<app-stock-input></app-stock-input>
+<mat-card *ngFor="let stock of stocks$ | async" class="example-card">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>{{ stock.nameCompany }}</mat-card-title>
-    <mat-card-subtitle
-      >Prezzo iniziale: {{ stock.initialPrice }} <br />
-      Prezzo attuale: {{ stock.currentPrice }}</mat-card-subtitle
-    >
+    <mat-card-title>{{ stock.name }}</mat-card-title>
+    <mat-card-subtitle>Prezzo iniziale: {{ stock.initialPrice }} <br />
+      Prezzo attuale: {{ stock.currentPrice }} <br>
+      Symbol: {{stock.ticker}}
+    </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-actions>

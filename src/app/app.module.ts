@@ -7,6 +7,8 @@ import { StocklistComponent } from './stocklist/stocklist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StockInputComponent } from './stock-input/stock-input.component';
 import { MaterialModule } from './material/material.module';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, StocklistComponent, StockInputComponent],
@@ -15,6 +17,8 @@ import { MaterialModule } from './material/material.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
