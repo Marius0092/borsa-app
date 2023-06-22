@@ -3,6 +3,7 @@ import { Stock } from '../model/stock.model';
 import { StockService } from '../service/stock.service';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-stock-details',
@@ -13,15 +14,20 @@ export class StockDetailsComponent implements OnInit, OnDestroy {
   public stockData: Stock | null = null;
   private stocksSubscription: Subscription | undefined;
 
-  constructor(private stockService: StockService, private location: Location) {}
+  constructor(
+    private stockService: StockService,
+    private location: Location,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.stocksSubscription = this.stockService.stocks$.subscribe(
       (stocks: Stock[]) => {
-        // Assuming you want to display the first stock in the list
-        if (stocks.length > 0) {
-          this.stockData = stocks[0];
-        }
+        this.route.params.subscribe((params) => {
+          const symbol = params['displaySymbol']; // Assuming the parameter name is 'displaySymbol'
+          this.stockData =
+            stocks.find((stock) => stock.displaySymbol === symbol) || null;
+        });
       }
     );
   }
