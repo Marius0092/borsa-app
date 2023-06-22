@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, of, switchMap } from 'rxjs';
 import { Stock } from '../model/stock.model';
 
 @Injectable({
@@ -26,47 +26,58 @@ export class StockService {
     const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${token}`;
     const insiderSentimentUrl = `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${symbol}&from=${lastDate}&to=${currentDate}&token=${token}`
 
-    this.http.get<any>(profileUrl).subscribe(
-      (profileResponse) => {
-        this.http.get<any>(quoteUrl).subscribe(
-          (quoteResponse) => {
-           this.http.get<any>(insiderSentimentUrl).subscribe(
-            (insiderResponse) => {
-              const stockData: Stock = {
-                nameCompany: profileResponse.name,
-                displaySymbol: profileResponse.ticker,
-                initialPrice: quoteResponse.pc,
-                currentPrice: quoteResponse.c,
-                logo: profileResponse.logo,
-                currency: profileResponse.currency,
+    this.http.get<any>(profileUrl).pipe(
+      switchMap((profileResponse) => {
+        return this.http.get<any>(quoteUrl).pipe(
+          switchMap((quoteResponse) => {
+            return this.http.get<any>(insiderSentimentUrl).pipe(
+              switchMap((insiderResponse) => {
+                const stockData: Stock = {
+                  nameCompany: profileResponse.name,
+                  displaySymbol: profileResponse.ticker,
+                  initialPrice: quoteResponse.pc,
+                  currentPrice: quoteResponse.c,
+                  logo: profileResponse.logo,
+                  currency: profileResponse.currency,
+                  currentDate: insiderResponse.data[insiderResponse.data.length - 1].change,
+                  oneMonthAgo: insiderResponse.data[insiderResponse.data.length - 2].change,
+                  twoMonthAgo: insiderResponse.data[insiderResponse.data.length - 3].change,
+                };
 
-                currentDate: insiderResponse.data[insiderResponse.data.length-1].change,
-                oneMonthAgo: insiderResponse?.data[insiderResponse.data.length-2].change,
-                twoMonthAgo: insiderResponse?.data[insiderResponse.data.length-3].change,
+                console.log(stockData);
+                console.log(insiderResponse);
 
-              };
-              console.log(stockData)
-              console.log(insiderResponse)
+                //Copia la lista attuale
+                const currentStocks = this.stocksSubject.value;
+                console.log(currentStocks);
 
-              //Copia la lista attuale
-              const currentStocks = this.stocksSubject.value;
-              console.log(currentStocks);
+                //Pusha i dati dello stockData che otteniamo dalla risposta
+                currentStocks.push(stockData);
+                this.stocksSubject.next(currentStocks);
 
-              //Pusha i dati dello stockData che otteniamo dalla risposta
-              currentStocks.push(stockData);
-              this.stocksSubject.next(currentStocks);
-            },
-            (error) => {
-              console.log('Error fetching stock quote:', error);
-            }
-           )
-          }
+                // Restituisci un observable vuoto (o un altro observable se necessario)
+                return of(null);
+              }),
+              catchError((error) => {
+                console.log('Error fetching insider sentiment:', error);
+                // Gestisci l'errore qui, ad esempio restituendo un observable con un messaggio di errore
+                return of(null);
+              })
+            );
+          }),
+          catchError((error) => {
+            console.log('Error fetching stock quote:', error);
+            // Gestisci l'errore qui, ad esempio restituendo un observable con un messaggio di errore
+            return of(null);
+          })
         );
-      },
-      (error) => {
+      }),
+      catchError((error) => {
         console.log('Error fetching stock profile:', error);
-      }
-    );
+        // Gestisci l'errore qui, ad esempio restituendo un observable con un messaggio di errore
+        return of(null);
+      })
+    ).subscribe();
   }
 
   deleteStock(stock: Stock) {
