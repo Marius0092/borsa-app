@@ -4,6 +4,10 @@ export interface Stock {
   initialPrice: Number;
   currentPrice: Number;
   logo: String;
+  currentDate?: String;
+  twoMonthAgo?: String;
+  oneMonthAgo?: String;
+  currency: String;
 
   /* prePreviousValue: Number;
   previousValue: Number;
