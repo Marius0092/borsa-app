@@ -85,7 +85,25 @@ export class StockService {
                   console.log(currentStocks);
 
                   //Pusha i dati dello stockData che otteniamo dalla risposta
-                  currentStocks.push(stockData);
+                  //Se non è già presente nella lista
+                  const isSymbolInStockList = (
+                    symbol: String,
+                    stockList: Stock[]
+                  ): boolean => {
+                    return stockList.some(
+                      (stock) => stock.displaySymbol === symbol
+                    );
+                  };
+                  const isSymbolPresent = isSymbolInStockList(
+                    stockData.displaySymbol,
+                    currentStocks
+                  );
+
+                  if (!isSymbolPresent) {
+                    currentStocks.push(stockData);
+                  } else {
+                    alert('ticker già presente in lista');
+                  }
                   this.stocksSubject.next(currentStocks);
 
                   // Restituisci un observable vuoto (o un altro observable se necessario)
