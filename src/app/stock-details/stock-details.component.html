@@ -1,1 +1,23 @@
-<p>stock-details works!</p>
+<div *ngIf="stockData">
+  <h2>Stock Details</h2>
+  <p>
+    Current Date: {{ stockData.currentDate?.month }}/{{
+      stockData.currentDate?.year
+    }}
+  </p>
+  <p>Change: {{ stockData.currentDate?.change }}</p>
+  <p>
+    One Month Ago: {{ stockData.oneMonthAgo?.month }}/{{
+      stockData.oneMonthAgo?.year
+    }}
+  </p>
+  <p>Change: {{ stockData.oneMonthAgo?.change }}</p>
+  <p>
+    Two Months Ago: {{ stockData.twoMonthAgo?.month }}/{{
+      stockData.twoMonthAgo?.year
+    }}
+  </p>
+  <p>Change: {{ stockData.twoMonthAgo?.change }}</p>
+
+  <button (click)="goBack()">Indietro</button>
+</div>
