@@ -23,40 +23,94 @@
 </div> -->
 
 
-<div class="container">
+<div class="container" *ngIf="stockData">
 
-  <mat-card class="example-card" *ngIf="stockData">
-    <mat-card-header>
-      <mat-card-title> Current Month: {{ stockData.currentDate?.month }}/{{
-        stockData.currentDate?.year}} </mat-card-title>
+  <mat-card class="example-card" *ngIf="stockData.twoMonthAgo.change != 0">
+    <mat-card-header *ngIf="stockData.twoMonthAgo.change">
+      <mat-card-title> Second-to-last month: {{ stockData.twoMonthAgo.month }}/{{
+        stockData.twoMonthAgo.year}} </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div><mat-icon>trending_down</mat-icon></div>
-      <p>Change: {{ stockData.currentDate?.change }} {{stockData.currency}}</p>
-    </mat-card-content>
+      <div *ngIf=" stockData.twoMonthAgo.change<0">
+        <mat-icon>trending_down</mat-icon>
+      </div>
 
+      <div *ngIf=" stockData.twoMonthAgo.change>0">
+        <mat-icon>trending_up</mat-icon>
+      </div>
+
+      <p>Change: {{ stockData.twoMonthAgo.change }} {{stockData.currency}}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="stockData.twoMonthAgo.change == 0">
+    <mat-card-header>Non disponibile</mat-card-header>
   </mat-card>
 
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+
+
+  <mat-card class="example-card" *ngIf="stockData.oneMonthAgo.change != 0">
+    <mat-card-header *ngIf="stockData.oneMonthAgo.change">
+      <mat-card-title> Previous month: {{ stockData.oneMonthAgo.month }}/{{
+        stockData.oneMonthAgo.year}} </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>This card indeterminates progress bar.</p>
-    </mat-card-content>
+      <div *ngIf=" stockData.oneMonthAgo.change<0">
+        <mat-icon>trending_down</mat-icon>
+      </div>
 
+      <div *ngIf=" stockData.oneMonthAgo.change>0">
+        <mat-icon>trending_up</mat-icon>
+      </div>
+
+      <p>Change: {{ stockData.oneMonthAgo.change }} {{stockData.currency}}</p>
+    </mat-card-content>
   </mat-card>
 
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+  <mat-card *ngIf="stockData.oneMonthAgo.change == 0">
+    <mat-card-header>Non disponibile</mat-card-header>
+  </mat-card>
+
+
+
+
+
+
+
+
+
+
+
+
+  <mat-card class="example-card" *ngIf="stockData.currentDate.change != 0">
+    <mat-card-header *ngIf="stockData.currentDate.change">
+      <mat-card-title> Latest Month: {{ stockData.currentDate.month }}/{{
+        stockData.currentDate.year}} </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>This card indeterminates progress bar.</p>
-    </mat-card-content>
+      <div *ngIf=" stockData.currentDate.change<0">
+        <mat-icon>trending_down</mat-icon>
+      </div>
 
+      <div *ngIf=" stockData.currentDate.change>0">
+        <mat-icon>trending_up</mat-icon>
+      </div>
+
+      <p>Change: {{ stockData.currentDate.change }} {{stockData.currency}}</p>
+    </mat-card-content>
   </mat-card>
 
+  <mat-card *ngIf="stockData.currentDate.change == 0">
+    <mat-card-header>Non disponibile</mat-card-header>
+  </mat-card>
+
+
+  <mat-card *ngIf="stockData.oneMonthAgo.change == 0">
+    <mat-card-header>Non disponibile</mat-card-header>
+  </mat-card>
+
+
+</div>
+
+<div class="container" *ngIf="!stockData">
+  <h1>Dati non disponibili</h1>
 </div>
