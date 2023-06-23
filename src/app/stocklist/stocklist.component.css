@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
   min-height: 100vh;
 }
 
@@ -37,7 +36,11 @@
   font-size: 4vh;
   color: #673ab7;
   text-align: center;
-  margin: 5vh;
+  margin-top: 1vh;
+}
+.img-logo{
+  width: 20vh;
+  display: block;
 }
 
 @media screen and (min-width: 768px) {

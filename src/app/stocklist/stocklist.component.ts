@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./stocklist.component.css'],
 })
 export class StocklistComponent {
+
   constructor(private stockService: StockService, private router: Router) {
   }
 

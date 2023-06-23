@@ -1,17 +1,19 @@
 .tickerFormField{
   margin-right: 10px;
   margin-bottom: 10px;
-  width: 130px;
+  margin-left: 35px;
+  width: 30vh;
   gap:20px;
   position: relative;
+  margin-top: 5vh;
 }
 
 @media screen and (min-width: 768px) {
 .tickerFormField{
-  margin-right: 10px;
-  margin-bottom: 10px;
-  width: 20vh;
+  margin-bottom: 0px;
+  margin-left: 35px;
+  width: 30vh;
   gap: 40px;
-  position: relative;
+
 }
 }
