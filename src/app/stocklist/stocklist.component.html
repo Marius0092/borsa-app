@@ -1,9 +1,9 @@
 <title>Stock Watch</title>
 <div class="container">
-  <h1 style="background-image: url('https://ibb.co/PtRty4g')">STOCK WATCH</h1>
+  <h1>STOCK WATCH</h1>
   <app-stock-input></app-stock-input>
   <mat-card *ngFor="let stock of stocks$ | async" class="example-card">
-    <button mat-icon-button color="warn" class="delete-button" (click)="deleteStock(stock)">X</button>
+    <button mat-icon-button color="warn" class="delete-button" (click)="deleteStock(stock)"><mat-icon>cancel</mat-icon></button>
     <mat-card-header>
       <div mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + stock.logo + ')' }">
       </div>
