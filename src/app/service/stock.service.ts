@@ -12,7 +12,7 @@ export class StockService {
 
   constructor(private http: HttpClient) {}
 
-  fetchStockProfileAndQuote(symbol: string, token: string): void {
+  fetchStock(symbol: string, token: string): void {
     const today = new Date();
     const currentDate = this.formatDate(today);
 
@@ -26,6 +26,7 @@ export class StockService {
     const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${token}`;
     const insiderSentimentUrl = `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${symbol}&from=${lastDate}&to=${currentDate}&token=${token}`;
 
+    // combina 3 chiamate http per riempire le proprietà di stock
     this.http
       .get<any>(profileUrl)
       .pipe(
@@ -135,26 +136,26 @@ export class StockService {
                   }
                   this.stocksSubject.next(currentStocks);
 
-                  // Restituisci un observable vuoto (o un altro observable se necessario)
+                  // In caso di errore, si connette a catchError
                   return of(null);
                 }),
                 catchError((error) => {
                   console.log('Error fetching insider sentiment:', error);
-                  // Gestisci l'errore qui, ad esempio restituendo un observable con un messaggio di errore
+                  // Gestisce l'errore
                   return of(null);
                 })
               );
             }),
             catchError((error) => {
               console.log('Error fetching stock quote:', error);
-              // Gestisci l'errore qui, ad esempio restituendo un observable con un messaggio di errore
+              // Gestisce l'errore
               return of(null);
             })
           );
         }),
         catchError((error) => {
           console.log('Error fetching stock profile:', error);
-          // Gestisci l'errore qui, ad esempio restituendo un observable con un messaggio di errore
+          // Gestisce l'errore
           return of(null);
         })
       )
