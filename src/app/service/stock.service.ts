@@ -40,40 +40,69 @@ export class StockService {
                     initialPrice: quoteResponse.pc,
                     currentPrice: quoteResponse.c,
                     logo: profileResponse.logo,
-                    currency: profileResponse.currency,
+                    currency: profileResponse.currency
+                      ? profileResponse.currency
+                      : 2,
                     currentDate: {
-                      change:
-                        insiderResponse?.data[insiderResponse.data.length - 1]
-                          .change,
-                      month:
-                        insiderResponse?.data[insiderResponse.data.length - 1]
-                          .month,
+                      change: insiderResponse?.data[
+                        insiderResponse.data.length - 1
+                      ].change
+                        ? insiderResponse?.data[insiderResponse.data.length - 1]
+                            .change
+                        : 0,
+                      month: insiderResponse?.data[
+                        insiderResponse.data.length - 1
+                      ].month
+                        ? insiderResponse?.data[insiderResponse.data.length - 1]
+                            .month
+                        : '',
                       year: insiderResponse?.data[
                         insiderResponse.data.length - 1
-                      ].year,
+                      ].year
+                        ? insiderResponse?.data[insiderResponse.data.length - 1]
+                            .year
+                        : '',
                     },
 
                     oneMonthAgo: {
-                      change:
-                        insiderResponse.data[insiderResponse.data.length - 2]
-                          ?.change,
-                      month:
-                        insiderResponse.data[insiderResponse.data.length - 2]
-                          ?.month,
+                      change: insiderResponse.data[
+                        insiderResponse.data.length - 2
+                      ]?.change
+                        ? insiderResponse.data[insiderResponse.data.length - 2]
+                            ?.change
+                        : 0,
+                      month: insiderResponse.data[
+                        insiderResponse.data.length - 2
+                      ]?.month
+                        ? insiderResponse.data[insiderResponse.data.length - 2]
+                            ?.month
+                        : '',
                       year: insiderResponse.data[
                         insiderResponse.data.length - 2
-                      ]?.year,
+                      ]?.year
+                        ? insiderResponse.data[insiderResponse.data.length - 2]
+                            ?.year
+                        : 0,
                     },
                     twoMonthAgo: {
-                      change:
-                        insiderResponse.data[insiderResponse.data.length - 3]
-                          ?.change,
-                      month:
-                        insiderResponse.data[insiderResponse.data.length - 3]
-                          ?.month,
+                      change: insiderResponse.data[
+                        insiderResponse.data.length - 3
+                      ]?.change
+                        ? insiderResponse.data[insiderResponse.data.length - 3]
+                            ?.change
+                        : 0,
+                      month: insiderResponse.data[
+                        insiderResponse.data.length - 3
+                      ]?.month
+                        ? insiderResponse.data[insiderResponse.data.length - 3]
+                            ?.month
+                        : '',
                       year: insiderResponse.data[
                         insiderResponse.data.length - 3
-                      ]?.year,
+                      ]?.year
+                        ? insiderResponse.data[insiderResponse.data.length - 3]
+                            ?.year
+                        : '',
                     },
                   };
 

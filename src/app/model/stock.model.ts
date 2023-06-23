@@ -1,18 +1,18 @@
 export interface Stock {
-  nameCompany: String;
-  displaySymbol: String;
-  initialPrice: Number;
-  currentPrice: Number;
-  currency: String;
-  logo: String;
+  nameCompany: string;
+  displaySymbol: string;
+  initialPrice: number;
+  currentPrice: number;
+  currency: string;
+  logo: number;
 
-  currentDate?: InsiderSentiment;
-  twoMonthAgo?: InsiderSentiment;
-  oneMonthAgo?: InsiderSentiment;
+  currentDate: InsiderSentiment;
+  twoMonthAgo: InsiderSentiment;
+  oneMonthAgo: InsiderSentiment;
 }
 
 export interface InsiderSentiment {
-  change?: Number;
-  month?: Number;
-  year?: Number;
+  change: number;
+  month: number;
+  year: number;
 }
