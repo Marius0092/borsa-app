@@ -1,28 +1,3 @@
-<!-- <div *ngIf="stockData">
-  <h2>Stock Details</h2>
-  <p>
-    Current Date: {{ stockData.currentDate?.month }}/{{
-    stockData.currentDate?.year
-    }}
-  </p>
-  <p>Change: {{ stockData.currentDate?.change }}</p>
-  <p>
-    One Month Ago: {{ stockData.oneMonthAgo?.month }}/{{
-    stockData.oneMonthAgo?.year
-    }}
-  </p>
-  <p>Change: {{ stockData.oneMonthAgo?.change }}</p>
-  <p>
-    Two Months Ago: {{ stockData.twoMonthAgo?.month}}/{{
-    stockData.twoMonthAgo?.year
-    }}
-  </p>
-  <p>Change: {{ stockData.twoMonthAgo?.change }}</p>
-
-  <button (click)="goBack()">Indietro</button>
-</div> -->
-
-
 <div class="container" *ngIf="stockData">
 
   <mat-card class="example-card" *ngIf="stockData.twoMonthAgo.change != 0">
@@ -42,6 +17,7 @@
       <p>Change: {{ stockData.twoMonthAgo.change }} {{stockData.currency}}</p>
     </mat-card-content>
   </mat-card>
+
   <mat-card *ngIf="stockData.twoMonthAgo.change == 0">
     <mat-card-header>Non disponibile</mat-card-header>
   </mat-card>

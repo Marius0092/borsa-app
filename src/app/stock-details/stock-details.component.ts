@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./stock-details.component.css'],
 })
 export class StockDetailsComponent implements OnInit, OnDestroy {
-  public stockData: Stock | null = null;
+  public stockData: Stock | null | undefined;
   private stocksSubscription: Subscription | undefined;
 
   constructor(
@@ -20,18 +20,21 @@ export class StockDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
+  //estraggo il displaySymbol tramite params dall'url
   ngOnInit(): void {
     this.stocksSubscription = this.stockService.stocks$.subscribe(
       (stocks: Stock[]) => {
         this.route.params.subscribe((params) => {
-          const symbol = params['displaySymbol']; // Assuming the parameter name is 'displaySymbol'
+          const symbol = params['displaySymbol'];
+
+          //ottengo lo stock che ha la stesso displaySymbol del params
           this.stockData =
             stocks.find((stock) => stock.displaySymbol === symbol) || null;
         });
       }
     );
   }
-
+  //Torna alla pagina precete
   goBack(): void {
     this.location.back();
   }

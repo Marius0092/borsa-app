@@ -12,15 +12,10 @@ export class StockInputComponent {
 
   constructor(private stockService: StockService) {}
 
-  fetchStockProfileAndQuote(): void {
+  // Aggiunge lo stock alla lista stock$ del service
+  addStock(): void {
     if (this.symbol && this.token) {
-      this.stockService.fetchStockProfileAndQuote(this.symbol, this.token);
+      this.stockService.fetchStock(this.symbol, this.token);
     }
-  }
-
-
-
-  get stocks$() {
-    return this.stockService.stocks$;
   }
 }

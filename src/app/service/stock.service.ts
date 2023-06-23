@@ -12,7 +12,7 @@ export class StockService {
 
   constructor(private http: HttpClient) {}
 
-  fetchStockProfileAndQuote(symbol: string, token: string): void {
+  fetchStock(symbol: string, token: string): void {
     const today = new Date();
     const currentDate = this.formatDate(today);
 
@@ -28,6 +28,7 @@ export class StockService {
 
     this.http
       .get<any>(profileUrl)
+      //tramite pipe combiniamo
       .pipe(
         switchMap((profileResponse) => {
           return this.http.get<any>(quoteUrl).pipe(
