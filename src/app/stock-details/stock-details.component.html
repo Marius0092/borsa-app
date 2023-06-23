@@ -24,7 +24,8 @@
 
 <div class="container">
 
-  <div *ngIf="stockData">
+  <div class="primary-profile-card" *ngIf="stockData">
+    <div class="group-card">
     <mat-card class="example-card-profile">
       <button mat-flat-button (click)="goBack()" class="left-side"><mat-icon>arrow_back</mat-icon>Back</button>
       <mat-card-header>
@@ -39,8 +40,8 @@
         </mat-card-content>
       </mat-card-header>
 
-      <div class="group-card">
-      <div *ngIf="stockData">
+
+      <div class="group-profile-card" *ngIf="stockData">
         <mat-card class="example-card" *ngIf="stockData.twoMonthAgo.change != 0">
           <mat-card-header *ngIf="stockData.twoMonthAgo.change">
             <mat-card-title> Second-to-last month: {{ stockData.twoMonthAgo.month }}/{{
@@ -111,8 +112,8 @@
           <mat-card-header>Not Available </mat-card-header>
         </mat-card>
       </div>
-    </div>
     </mat-card>
+    </div>
   </div>
 
   <div *ngIf="!stockData">

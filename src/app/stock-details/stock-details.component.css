@@ -51,8 +51,28 @@
 }
 
 @media screen and (min-width: 768px) {
-.group-card {
+
+
+.container {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height:100vh;
+}
+
+.group-profile-card {
+  display: flex;
+  gap: 20px;
+}
+
+.primary-profile-card {
+  display: flex;
+}
+
+.example-card-profile {
+  max-width: none;
+  margin: 20px;
 }
 
 }

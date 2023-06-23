@@ -1,7 +1,9 @@
 <title>Stock Watch</title>
+
 <div class="container">
-  <h1>STOCK WATCH</h1>
+  <h1 class="logo-font">STOCK WATCH</h1>
   <app-stock-input></app-stock-input>
+  <div class="group-card">
   <mat-card *ngFor="let stock of stocks$ | async" class="example-card">
     <button mat-icon-button color="warn" class="delete-button" (click)="deleteStock(stock)"><mat-icon>cancel</mat-icon></button>
     <mat-card-header>
@@ -18,4 +20,5 @@
     </mat-card-header>
     <button mat-button color="primary" (click)="showDetails(stock.displaySymbol)">Details</button>
   </mat-card>
+</div>
 </div>
