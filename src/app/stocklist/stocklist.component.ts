@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { StockService } from '../service/stock.service';
 import { Stock } from '../model/stock.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stocklist',
@@ -7,24 +9,19 @@ import { Stock } from '../model/stock.model';
   styleUrls: ['./stocklist.component.css'],
 })
 export class StocklistComponent {
-  stocks: Stock[] = [
-    {
-      nameCompany: 'Apple',
-      initialPrice: 3252,
-      currentPrice: 3827,
-      displaySymbol: 'APL',
-    },
-    {
-      nameCompany: 'Microsoft',
-      initialPrice: 3252,
-      currentPrice: 3827,
-      displaySymbol: 'MSF',
-    },
-    {
-      nameCompany: 'Dell',
-      initialPrice: 3252,
-      currentPrice: 3827,
-      displaySymbol: 'DELL',
-    },
-  ];
+
+  constructor(private stockService: StockService, private router: Router) {
+  }
+
+  deleteStock(stock: Stock) {
+    this.stockService.deleteStock(stock);
+  }
+
+  showDetails(displaySymbol: String) {
+  this.router.navigateByUrl('stocks/' + displaySymbol)
+  }
+
+  get stocks$() {
+    return this.stockService.stocks$;
+  }
 }
