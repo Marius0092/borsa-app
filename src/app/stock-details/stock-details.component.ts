@@ -23,10 +23,8 @@ export class StockDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.stocksSubscription = this.stockService.stocks$.subscribe(
       (stocks: Stock[]) => {
-        // tramite params ottengo il symbol
         this.route.params.subscribe((params) => {
-          const symbol = params['displaySymbol'];
-          //Ottengo lo stock interessato
+          const symbol = params['displaySymbol']; // Assuming the parameter name is 'displaySymbol'
           this.stockData =
             stocks.find((stock) => stock.displaySymbol === symbol) || null;
         });
