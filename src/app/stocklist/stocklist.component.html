@@ -1,25 +1,51 @@
 <title>Stock Watch</title>
 
 <div class="container">
-  <img src="https://i.ibb.co/CssP7Wj/logoSW.png" alt="logoSW" class="img-logo">
+  <img
+    src="https://i.ibb.co/CssP7Wj/logoSW.png"
+    alt="logoSW"
+    class="img-logo"
+  />
   <h1 class="logo-font">STOCK WATCH</h1>
   <app-stock-input></app-stock-input>
   <div class="group-card">
-  <mat-card *ngFor="let stock of stocks$ | async" class="example-card">
-    <button mat-icon-button color="warn" class="delete-button" (click)="deleteStock(stock)"><mat-icon>cancel</mat-icon></button>
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + stock.logo + ')' }">
-      </div>
+    <mat-card *ngFor="let stock of stocks$ | async" class="example-card">
+      <button
+        mat-icon-button
+        color="warn"
+        class="delete-button"
+        (click)="deleteStock(stock)"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <mat-card-header>
+        <div
+          mat-card-avatar
+          class="example-header-image"
+          [ngStyle]="{ 'background-image': 'url(' + stock.logo + ')' }"
+        ></div>
 
-      <mat-card-content>
-        <mat-card-subtitle>
-          <h1>{{ stock.nameCompany }}</h1>
-        </mat-card-subtitle>
-        <mat-card-subtitle>Latest Price: {{ stock.currentPrice }} {{stock.currency}}</mat-card-subtitle>
-        <mat-card-subtitle>Previous Close Price: {{ stock.initialPrice }} {{stock.currency}}</mat-card-subtitle>
-      </mat-card-content>
-    </mat-card-header>
-    <button mat-button color="primary" (click)="showDetails(stock.displaySymbol)">Details</button>
-  </mat-card>
-</div>
+        <mat-card-content>
+          <mat-card-subtitle>
+            <h1>{{ stock.nameCompany }}</h1>
+          </mat-card-subtitle>
+          <mat-card-subtitle
+            >Latest Price: {{ stock.currentPrice }}
+            {{ stock.currency }}</mat-card-subtitle
+          >
+          <mat-card-subtitle
+            >Prev. Close Price: {{ stock.initialPrice }}
+            {{ stock.currency }}</mat-card-subtitle
+          >
+        </mat-card-content>
+      </mat-card-header>
+      <button
+        mat-button
+        color="primary"
+        (click)="showDetails(stock.displaySymbol)"
+      >
+        Details
+      </button>
+    </mat-card>
+  </div>
 </div>

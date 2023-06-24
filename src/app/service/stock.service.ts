@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, of, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, of, switchMap, tap } from 'rxjs';
 import { Stock } from '../model/stock.model';
 
 @Injectable({
@@ -19,6 +19,7 @@ export class StockService {
     const twoMonthsAgo = new Date();
     twoMonthsAgo.setMonth(today.getMonth() - 2);
     const lastDate = this.formatDate(twoMonthsAgo);
+
     console.log('Current Date:', currentDate);
     console.log('Last Date:', lastDate);
 
@@ -26,98 +27,58 @@ export class StockService {
     const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${token}`;
     const insiderSentimentUrl = `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${symbol}&from=${lastDate}&to=${currentDate}&token=${token}`;
 
-    // combina 3 chiamate http per riempire le proprietà di stock
+    //Chiamata http a profileUrl dove prendo gli attributi name, ticker, logo, currency
     this.http
       .get<any>(profileUrl)
       .pipe(
         switchMap((profileResponse) => {
+          const { name, ticker, logo, currency } = profileResponse;
+
+          // Chiamata http a quoteUrl dove prendo gli attributi previous price (pc) e current price (c)
           return this.http.get<any>(quoteUrl).pipe(
             switchMap((quoteResponse) => {
+              const { pc, c } = quoteResponse;
+
+              /* Chiamata http a insiderSentimentUrl dove prendo l'attributo data[]
+                in cui ciascun elemento rappresenta il sentiment data di ogni mese
+                */
               return this.http.get<any>(insiderSentimentUrl).pipe(
                 switchMap((insiderResponse) => {
-                  const stockData: Stock = {
-                    nameCompany: profileResponse.name,
-                    displaySymbol: profileResponse.ticker,
-                    initialPrice: quoteResponse.pc,
-                    currentPrice: quoteResponse.c,
-                    logo: profileResponse.logo,
-                    currency: profileResponse.currency
-                      ? profileResponse.currency
-                      : 2,
-                    currentDate: {
-                      change: insiderResponse?.data[
-                        insiderResponse.data.length - 1
-                      ].change
-                        ? insiderResponse?.data[insiderResponse.data.length - 1]
-                            .change
-                        : 0,
-                      month: insiderResponse?.data[
-                        insiderResponse.data.length - 1
-                      ].month
-                        ? insiderResponse?.data[insiderResponse.data.length - 1]
-                            .month
-                        : '',
-                      year: insiderResponse?.data[
-                        insiderResponse.data.length - 1
-                      ].year
-                        ? insiderResponse?.data[insiderResponse.data.length - 1]
-                            .year
-                        : '',
-                    },
+                  const { data } = insiderResponse;
 
+                  //Compongo l'oggetto che andrò ad inserire
+                  const stockData: Stock = {
+                    nameCompany: name,
+                    displaySymbol: ticker,
+                    initialPrice: pc,
+                    currentPrice: c,
+                    logo: logo,
+                    currency: currency,
+                    currentDate: {
+                      change: data[data.length - 1]?.change ?? 0,
+                      month: data[data.length - 1]?.month ?? '',
+                      year: data[data.length - 1]?.year ?? '',
+                    },
                     oneMonthAgo: {
-                      change: insiderResponse.data[
-                        insiderResponse.data.length - 2
-                      ]?.change
-                        ? insiderResponse.data[insiderResponse.data.length - 2]
-                            ?.change
-                        : 0,
-                      month: insiderResponse.data[
-                        insiderResponse.data.length - 2
-                      ]?.month
-                        ? insiderResponse.data[insiderResponse.data.length - 2]
-                            ?.month
-                        : '',
-                      year: insiderResponse.data[
-                        insiderResponse.data.length - 2
-                      ]?.year
-                        ? insiderResponse.data[insiderResponse.data.length - 2]
-                            ?.year
-                        : 0,
+                      change: data[data.length - 2]?.change ?? 0,
+                      month: data[data.length - 2]?.month ?? '',
+                      year: data[data.length - 2]?.year ?? 0,
                     },
                     twoMonthAgo: {
-                      change: insiderResponse.data[
-                        insiderResponse.data.length - 3
-                      ]?.change
-                        ? insiderResponse.data[insiderResponse.data.length - 3]
-                            ?.change
-                        : 0,
-                      month: insiderResponse.data[
-                        insiderResponse.data.length - 3
-                      ]?.month
-                        ? insiderResponse.data[insiderResponse.data.length - 3]
-                            ?.month
-                        : '',
-                      year: insiderResponse.data[
-                        insiderResponse.data.length - 3
-                      ]?.year
-                        ? insiderResponse.data[insiderResponse.data.length - 3]
-                            ?.year
-                        : '',
+                      change: data[data.length - 3]?.change ?? 0,
+                      month: data[data.length - 3]?.month ?? '',
+                      year: data[data.length - 3]?.year ?? '',
                     },
                   };
-
                   console.log(stockData);
-                  console.log(insiderResponse);
 
-                  //Copia la lista attuale
+                  //Creo un copia della lista attuale
                   const currentStocks = this.stocksSubject.value;
                   console.log(currentStocks);
 
-                  //Pusha i dati dello stockData che otteniamo dalla risposta
-                  //Se non è già presente nella lista
+                  //Creo un boolean che verifica se un displaySymbol è già presente in lista
                   const isSymbolInStockList = (
-                    symbol: String,
+                    symbol: string,
                     stockList: Stock[]
                   ): boolean => {
                     return stockList.some(
@@ -129,39 +90,50 @@ export class StockService {
                     currentStocks
                   );
 
-                  if (!isSymbolPresent) {
+                  // Controllo se il ticker in input è valido o è già presente in lista
+                  if (
+                    !isSymbolPresent &&
+                    stockData.displaySymbol !== undefined
+                  ) {
                     currentStocks.push(stockData);
+                  } else if (isSymbolPresent) {
+                    alert('Ticker already present in the list.');
                   } else {
-                    alert('ticker già presente in lista');
+                    alert("Ticker in input doesn't exist. ");
                   }
-                  this.stocksSubject.next(currentStocks);
-
-                  // In caso di errore, si connette a catchError
                   return of(null);
                 }),
+
+                //Cattura eventuali errori
                 catchError((error) => {
                   console.log('Error fetching insider sentiment:', error);
-                  // Gestisce l'errore
                   return of(null);
                 })
               );
             }),
             catchError((error) => {
               console.log('Error fetching stock quote:', error);
-              // Gestisce l'errore
               return of(null);
             })
           );
         }),
         catchError((error) => {
           console.log('Error fetching stock profile:', error);
-          // Gestisce l'errore
           return of(null);
+        }),
+
+        //Aggiorno la lista con lo stockData aggiunto
+        tap(() => {
+          const currentStocks = this.stocksSubject.value;
+          this.stocksSubject.next(currentStocks);
         })
       )
       .subscribe();
   }
 
+  /*Elimina uno stock dalla lista in base
+    confrontando il displaySymbol utilizzando come id univoco.
+   */
   deleteStock(stock: Stock) {
     const currentStocks = this.stocksSubject.getValue();
     const updatedStocks = currentStocks.filter(
@@ -170,6 +142,7 @@ export class StockService {
     this.stocksSubject.next(updatedStocks);
   }
 
+  //Formattazione della data in YYYY-MM-DD
   formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
