@@ -23,109 +23,148 @@
 </div> -->
 
 <div class="container">
-
   <div class="primary-profile-card" *ngIf="stockData">
     <div class="group-card">
-    <mat-card class="example-card-profile">
-      <button mat-flat-button (click)="goBack()" class="left-side"><mat-icon>arrow_back</mat-icon>Back</button>
-      <mat-card-header>
-        <div mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + stockData.logo + ')' }">
-        </div>
-      </mat-card-header>
-      <mat-card-header>
-        <mat-card-content>
+      <mat-card class="example-card-profile">
+        <button mat-flat-button (click)="goBack()" class="left-side">
+          <mat-icon>arrow_back</mat-icon>Back
+        </button>
+        <mat-card-header>
+          <div
+            mat-card-avatar
+            class="example-header-image"
+            [ngStyle]="{ 'background-image': 'url(' + stockData.logo + ')' }"
+          ></div>
+        </mat-card-header>
+        <mat-card-header>
+          <mat-card-content>
             <h1>{{ stockData.nameCompany }}</h1>
-          <mat-card-subtitle>Latest Price: {{ stockData.currentPrice }} {{stockData.currency}}</mat-card-subtitle>
-          <mat-card-subtitle>Previous Close Price: {{ stockData.initialPrice }} {{stockData.currency}}</mat-card-subtitle>
-        </mat-card-content>
-      </mat-card-header>
-
-
-      <div class="group-profile-card" *ngIf="stockData">
-        <mat-card class="example-card" *ngIf="stockData.twoMonthAgo.change != 0">
-          <mat-card-header *ngIf="stockData.twoMonthAgo.change">
-            <mat-card-title> Second-to-last month: {{ stockData.twoMonthAgo.month }}/{{
-              stockData.twoMonthAgo.year}} </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div *ngIf=" stockData.twoMonthAgo.change<0">
-              <mat-icon>trending_down</mat-icon>
-            </div>
-
-            <div *ngIf=" stockData.twoMonthAgo.change>0">
-              <mat-icon>trending_up</mat-icon>
-            </div>
-
-            <p>Change: {{ stockData.twoMonthAgo.change }} {{stockData.currency}}</p>
+            <mat-card-subtitle
+              >Latest Price: {{ stockData.currentPrice }}
+              {{ stockData.currency }}</mat-card-subtitle
+            >
+            <mat-card-subtitle
+              >Previous Close Price: {{ stockData.initialPrice }}
+              {{ stockData.currency }}</mat-card-subtitle
+            >
           </mat-card-content>
-        </mat-card>
+        </mat-card-header>
 
-        <mat-card class="example-card" *ngIf="stockData.twoMonthAgo.change == 0">
-          <mat-card-header>
-            <mat-card-title> Second-to-last month:</mat-card-title>
+        <div class="group-profile-card" *ngIf="stockData">
+          <mat-card
+            class="example-card"
+            *ngIf="stockData.twoMonthAgo.change != 0"
+          >
+            <mat-card-header *ngIf="stockData.twoMonthAgo.change">
+              <mat-card-title>
+                Second-to-last month: {{ stockData.twoMonthAgo.month }}/{{
+                  stockData.twoMonthAgo.year
+                }}
+              </mat-card-title>
             </mat-card-header>
-              <div><mat-icon>warning</mat-icon></div>
+            <mat-card-content>
+              <div *ngIf="stockData.twoMonthAgo.change < 0">
+                <mat-icon>trending_down</mat-icon>
+              </div>
+
+              <div *ngIf="stockData.twoMonthAgo.change > 0">
+                <mat-icon>trending_up</mat-icon>
+              </div>
+
+              <p>
+                Change: {{ stockData.twoMonthAgo.change }}
+                {{ stockData.currency }}
+              </p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card
+            class="example-card"
+            *ngIf="stockData.twoMonthAgo.change == 0"
+          >
+            <mat-card-header>
+              <mat-card-title> Second-to-last month:</mat-card-title>
+            </mat-card-header>
+            <div><mat-icon>warning</mat-icon></div>
             <p>Not Available</p>
-        </mat-card>
+          </mat-card>
 
-        <mat-card class="example-card" *ngIf="stockData.oneMonthAgo.change != 0">
-          <mat-card-header *ngIf="stockData.oneMonthAgo.change">
-            <mat-card-title> Previous month: {{ stockData.oneMonthAgo.month }}/{{
-              stockData.oneMonthAgo.year}} </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div *ngIf=" stockData.oneMonthAgo.change<0">
-              <mat-icon>trending_down</mat-icon>
-            </div>
+          <mat-card
+            class="example-card"
+            *ngIf="stockData.oneMonthAgo.change != 0"
+          >
+            <mat-card-header *ngIf="stockData.oneMonthAgo.change">
+              <mat-card-title>
+                Previous month: {{ stockData.oneMonthAgo.month }}/{{
+                  stockData.oneMonthAgo.year
+                }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngIf="stockData.oneMonthAgo.change < 0">
+                <mat-icon>trending_down</mat-icon>
+              </div>
 
-            <div *ngIf=" stockData.oneMonthAgo.change>0">
-              <mat-icon>trending_up</mat-icon>
-            </div>
+              <div *ngIf="stockData.oneMonthAgo.change > 0">
+                <mat-icon>trending_up</mat-icon>
+              </div>
 
-            <p>Change: {{ stockData.oneMonthAgo.change }} {{stockData.currency}}</p>
-          </mat-card-content>
-        </mat-card>
+              <p>
+                Change: {{ stockData.oneMonthAgo.change }}
+                {{ stockData.currency }}
+              </p>
+            </mat-card-content>
+          </mat-card>
 
-        <mat-card class="example-card" *ngIf="stockData.oneMonthAgo.change == 0">
-          <mat-card-header>Not Available</mat-card-header>
-        </mat-card>
+          <mat-card
+            class="example-card"
+            *ngIf="stockData.oneMonthAgo.change == 0"
+          >
+            <mat-card-header>Not Available</mat-card-header>
+          </mat-card>
 
-        <mat-card class="example-card" *ngIf="stockData.currentDate.change != 0">
-          <mat-card-header *ngIf="stockData.currentDate.change">
-            <mat-card-title> Latest Month: {{ stockData.currentDate.month }}/{{
-              stockData.currentDate.year}} </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div *ngIf=" stockData.currentDate.change<0">
-              <mat-icon>trending_down</mat-icon>
-            </div>
+          <mat-card
+            class="example-card"
+            *ngIf="stockData.currentDate.change != 0"
+          >
+            <mat-card-header *ngIf="stockData.currentDate.change">
+              <mat-card-title>
+                Latest Month: {{ stockData.currentDate.month }}/{{
+                  stockData.currentDate.year
+                }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngIf="stockData.currentDate.change < 0">
+                <mat-icon>trending_down</mat-icon>
+              </div>
 
-            <div *ngIf=" stockData.currentDate.change>0">
-              <mat-icon>trending_up</mat-icon>
-            </div>
+              <div *ngIf="stockData.currentDate.change > 0">
+                <mat-icon>trending_up</mat-icon>
+              </div>
 
-            <p>Change: {{ stockData.currentDate.change }} {{stockData.currency}}</p>
-          </mat-card-content>
-        </mat-card>
+              <p>
+                Change: {{ stockData.currentDate.change }}
+                {{ stockData.currency }}
+              </p>
+            </mat-card-content>
+          </mat-card>
 
-        <mat-card class="example-card" *ngIf="stockData.currentDate.change == 0">
-          <mat-card-header>Not Available </mat-card-header>
-        </mat-card>
-      </div>
-    </mat-card>
+          <mat-card
+            class="example-card"
+            *ngIf="stockData.currentDate.change == 0"
+          >
+            <mat-card-header>Not Available </mat-card-header>
+          </mat-card>
+        </div>
+      </mat-card>
     </div>
   </div>
 
   <div *ngIf="!stockData">
-
     <h1>No available data</h1>
-    <button mat-raised-button  (click)="goBack()" class="left-side">Go Back</button>
-
+    <button mat-raised-button (click)="goBack()" class="left-side">
+      Go Back
+    </button>
   </div>
-
 </div>
-
-
-
-
-
