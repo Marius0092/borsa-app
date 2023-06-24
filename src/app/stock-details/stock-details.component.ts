@@ -23,8 +23,11 @@ export class StockDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.stocksSubscription = this.stockService.stocks$.subscribe(
       (stocks: Stock[]) => {
+        //Ricavo il symbol tramite params dall'url
         this.route.params.subscribe((params) => {
-          const symbol = params['displaySymbol']; // Assuming the parameter name is 'displaySymbol'
+          const symbol = params['displaySymbol']; // Assumendo che il parametro si displaySymbol
+
+          //prendo lo stock che ha lo stesso symbol del params
           this.stockData =
             stocks.find((stock) => stock.displaySymbol === symbol) || null;
         });
@@ -32,6 +35,7 @@ export class StockDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
+  //Torna al pagina precedente
   goBack(): void {
     this.location.back();
   }

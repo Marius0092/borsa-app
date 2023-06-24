@@ -26,15 +26,20 @@ export class StockService {
     const quoteUrl = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${token}`;
     const insiderSentimentUrl = `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${symbol}&from=${lastDate}&to=${currentDate}&token=${token}`;
 
-    // combina 3 chiamate http per riempire le proprietà di stock
+    //Combina 3 chiamate http
+
+    //Chiamata http al profileUrl
     this.http
       .get<any>(profileUrl)
       .pipe(
         switchMap((profileResponse) => {
+          //Chiamata http al quoteUrl
           return this.http.get<any>(quoteUrl).pipe(
             switchMap((quoteResponse) => {
+              //Chiamata http all'insiderSentimentUrl
               return this.http.get<any>(insiderSentimentUrl).pipe(
                 switchMap((insiderResponse) => {
+                  //Compongo stockData con gli attributi che m'interessano
                   const stockData: Stock = {
                     nameCompany: profileResponse.name,
                     displaySymbol: profileResponse.ticker,
@@ -110,12 +115,11 @@ export class StockService {
                   console.log(stockData);
                   console.log(insiderResponse);
 
-                  //Copia la lista attuale
+                  //Copia della lista attuale
                   const currentStocks = this.stocksSubject.value;
                   console.log(currentStocks);
 
-                  //Pusha i dati dello stockData che otteniamo dalla risposta
-                  //Se non è già presente nella lista
+                  //boolean che indica se è già presente uno stock nella lista che contiene quel symbol
                   const isSymbolInStockList = (
                     symbol: String,
                     stockList: Stock[]
@@ -124,16 +128,20 @@ export class StockService {
                       (stock) => stock.displaySymbol === symbol
                     );
                   };
+
                   const isSymbolPresent = isSymbolInStockList(
                     stockData.displaySymbol,
                     currentStocks
                   );
 
+                  // Pusha stockData se non esiste già nella lista copia
                   if (!isSymbolPresent) {
                     currentStocks.push(stockData);
                   } else {
                     alert('ticker già presente in lista');
                   }
+
+                  //Aggiorno la lista stockSubject con l'aggiunta di stockData
                   this.stocksSubject.next(currentStocks);
 
                   // In caso di errore, si connette a catchError
@@ -162,6 +170,7 @@ export class StockService {
       .subscribe();
   }
 
+  //Cancella uno stock dalla lista StocksSubject confrontando il displaySymbol
   deleteStock(stock: Stock) {
     const currentStocks = this.stocksSubject.getValue();
     const updatedStocks = currentStocks.filter(
@@ -170,6 +179,7 @@ export class StockService {
     this.stocksSubject.next(updatedStocks);
   }
 
+  //Formattazione della data in YYYY-MM-DD
   formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
