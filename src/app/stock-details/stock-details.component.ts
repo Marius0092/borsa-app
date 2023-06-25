@@ -25,7 +25,7 @@ export class StockDetailsComponent implements OnInit, OnDestroy {
       (stocks: Stock[]) => {
         //Ricavo il symbol tramite params dall'url
         this.route.params.subscribe((params) => {
-          const symbol = params['displaySymbol']; // Assumendo che il parametro si displaySymbol
+          const symbol = params['displaySymbol'];
 
           //prendo lo stock che ha lo stesso symbol del params
           this.stockData =
@@ -35,7 +35,7 @@ export class StockDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  //Torna al pagina precedente
+  //Torna alla pagina precedente
   goBack(): void {
     this.location.back();
   }
